@@ -7,6 +7,7 @@
     "start": "react-native start",
     "start:expo": "expo start",
     "start:android": "expo run:android",
+    "start:web": "expo run:web",
     "test": "jest"
   },
   "dependencies": {
