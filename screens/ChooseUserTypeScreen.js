@@ -2,12 +2,12 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { JOBLI_FONT, PRIMARY_BTN, SECONDARY_BTN } from '../assets/theme';
-import { post } from '../services/api.service';
+import { isJobSeeker, updateUserType } from '../services/user.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChooseUserTypeScreen({ navigation }) {
     function navigateUserByType(userType) {
-        post('/api/users/type', { user_type: userType }).then(res => {
+        updateUserType(userType).then(() => {
             if (userType === 'job_seeker') {
                 navigation.replace('יצירת פרופיל מחפש עבודה');
             } else if (userType === 'employer') {
@@ -18,7 +18,9 @@ export default function ChooseUserTypeScreen({ navigation }) {
 
     React.useEffect(() => {
         // AsyncStorage.clear()
-        AsyncStorage.getItem('user_type').then(navigateUserByType);
+        if (isJobSeeker()) {
+            navigation.replace('יצירת פרופיל מחפש עבודה');
+        }
     }, []);
 
     return (
