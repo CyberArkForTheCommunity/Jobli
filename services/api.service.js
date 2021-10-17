@@ -1,4 +1,17 @@
 import axios from "axios";
+import { userTokenId } from "../services/auth.service";
+
+axios.interceptors.request.use(async function (config) {
+  if (userTokenId) {
+    config.headers['Authorization'] = `Bearer ${userTokenId}`;
+  }
+  return config;
+}, function (error) {
+  // TODO: add 
+  console.log('>>>>>>>>>>>error>>>>>>>>>>>>>>', error)
+  return Promise.reject(error);
+});
+
 
 async function get(url, config) {
   try {

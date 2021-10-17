@@ -1,45 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import Amplify, { Auth, Hub } from 'aws-amplify';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { Hub } from 'aws-amplify';
 import { Button } from 'react-native-elements';
+import { isAuthenticated, storeUserDetails, googleSignIn } from '../services/auth.service';
 
 export default function LoginScreen({ navigation }) {
-    const [user, setUser] = useState(null);
-
-
-    async function isAuthenticated() {
-        const user_id = await AsyncStorage.getItem('user_id')
-        const jwtToken = await AsyncStorage.getItem('jwtToken')
-        return jwtToken && user_id;
-    }
-
-    function getUser() {
-
-        Auth.currentUserInfo()
-            .then(async (userData) => {
-                await AsyncStorage.setItem(
-                    'user_id',
-                    userData.attributes.sub
-                );
-            })
-            .catch(() => console.log('Not signed in'));
-
-        return Auth.currentAuthenticatedUser()
-            .then(async (userData) => {
-                await AsyncStorage.setItem(
-                    'jwtToken',
-                    userData.signInUserSession.idToken.jwtToken
-                );
-            })
-            .catch(() => console.log('Not signed in'));
-    }
-
     useEffect(() => {
-        Hub.listen('auth', ({ payload: { event, data } }) => {
+        Hub.listen('auth', async ({ payload: { event, data } }) => {
             switch (event) {
                 case 'signIn':
-                    getUser().then((userData) => setUser(userData));
+                    await storeUserDetails();
                     navigation.navigate('ChooseUserTypeScreen');
                     break;
                 case 'signOut':
@@ -51,21 +21,17 @@ export default function LoginScreen({ navigation }) {
             }
         });
 
-        isAuthenticated().then(isAuth => {
-            if (!isAuth) {
-                getUser().then((userData) => setUser(userData));
-            } else {
+        isAuthenticated().then((isAuth) => {
+            if (isAuth)
                 navigation.navigate('ChooseUserTypeScreen');
-            }
-        })
+        });
     }, []);
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
             <Button
-                title="Login With Google"
-                onPress={() => Auth.federatedSignIn()
+                title="התחברות עם גוגל"
+                onPress={() => googleSignIn()
                 }
             />
         </View>
