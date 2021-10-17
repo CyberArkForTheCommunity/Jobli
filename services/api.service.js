@@ -1,5 +1,8 @@
 import axios from "axios";
 import { userTokenId } from "../services/auth.service";
+import { BASE_URL } from '../constants';
+
+axios.defaults.baseURL = BASE_URL;
 
 axios.interceptors.request.use(async function (config) {
   if (userTokenId) {

@@ -2,16 +2,18 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { JOBLI_FONT, PRIMARY_BTN, SECONDARY_BTN } from '../assets/theme';
+import { post } from '../services/api.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChooseUserTypeScreen({ navigation }) {
-
     function navigateUserByType(userType) {
-        if (userType === 'seeker') {
-            navigation.replace('יצירת פרופיל מחפש עבודה');
-        } else if (userType === 'employer') {
-            navigation.navigate('יצירת פרופיל מעסיק');
-        }
+        post('/api/users/type', { user_type: userType }).then(res => {
+            if (userType === 'job_seeker') {
+                navigation.replace('יצירת פרופיל מחפש עבודה');
+            } else if (userType === 'employer') {
+                navigation.navigate('יצירת פרופיל מעסיק');
+            }
+        });
     }
 
     React.useEffect(() => {
@@ -29,12 +31,12 @@ export default function ChooseUserTypeScreen({ navigation }) {
                     title="לחפש עבודה"
                     titleStyle={PRIMARY_BTN.TITLE_STYLE}
                     onPress={() => {
-                        const userType = 'seeker';
+                        const userType = 'job_seeker';
                         AsyncStorage.setItem('user_type', userType);
                         navigateUserByType(userType)
                     }}
                 />
-                <Button
+                {/* <Button
                     buttonStyle={[styles.choosetypeBtn, styles.seekingForEmployeesBtnStyle, SECONDARY_BTN.BTN_STYLE]}
                     title="לחפש עובדים"
                     titleStyle={SECONDARY_BTN.TITLE_STYLE}
@@ -43,7 +45,7 @@ export default function ChooseUserTypeScreen({ navigation }) {
                         AsyncStorage.setItem('user_type', userType);
                         navigateUserByType(userType)
                     }}
-                />
+                /> */}
             </View>
 
         </View>
