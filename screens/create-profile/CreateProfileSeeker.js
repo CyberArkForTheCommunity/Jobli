@@ -8,6 +8,7 @@ import { Icon, Button, Overlay } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { put } from '../../services/api.service';
+import useAxios from '../../hooks/axios.hook';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -92,7 +93,12 @@ const FormProfile = ({ handleChange, handleBlur, values }) => {
 
 export default function CreateProfileSeeker({ navigation }) {
     const [visible, setVisible] = React.useState(false);
-    const [loading, setLoader] = React.useState(false);
+    const [submitLoading, setLoader] = React.useState(false);
+
+    const { response, loading, error } = useAxios({
+        method: 'get',
+        url: '/api/seeker/profile',
+    });
 
     function submit(values) {
         setLoader(true);
@@ -100,13 +106,6 @@ export default function CreateProfileSeeker({ navigation }) {
             setLoader(false)
             navigation.replace('SkillsQuestions')
         })
-        // fetch(EMPLOYERS, {
-        //     method: 'PUT',
-        //     body: JSON.stringify(values)
-        // }).then(res => res).then(res => {
-        //     setLoader(false)
-        //     navigation.replace('SkillsQuestions')
-        // });
     }
 
     const initialValues = {
@@ -118,7 +117,24 @@ export default function CreateProfileSeeker({ navigation }) {
         email: '',
     }
 
-    if (loading) {
+    // TODO: for edit mode
+
+    // if (response) {
+    //     Object.assign(initialValues, {
+    //         full_name: response.full_name,
+    //         birth_year: new Date(response.birth_date).getFullYear().toString(),
+    //         birth_month: (new Date(response.birth_date).getMonth() + 1).toString(),
+    //         birth_day: new Date(response.birth_date).getDate().toString(),
+    //         address: response.address,
+    //         email: response.email,
+    //     });
+    // }
+
+    if (response && response.full_name) {
+        navigation.replace('SkillsQuestions');
+    }
+
+    if (submitLoading || loading) {
         return (
             <View style={{
                 flex: 1, justifyContent: "center"

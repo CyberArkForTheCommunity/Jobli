@@ -12,10 +12,8 @@ import { StyleSheet, I18nManager } from 'react-native';
 
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
-
-
 
 import AddLanguageScreen from './screens/AddLanguageScreen';
 import SkillsSummary from './components/skills-wizard/skills-summary';
