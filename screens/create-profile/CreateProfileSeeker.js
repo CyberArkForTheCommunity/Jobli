@@ -100,9 +100,15 @@ export default function CreateProfileSeeker({ navigation }) {
         url: '/api/seeker/profile',
     });
 
+    React.useEffect(() => {
+        if (response && response.full_name) {
+            navigation.replace('AboutMeProfileScreen');
+        }
+    }, [response])
+
     function submit(values) {
         setLoader(true);
-        put(EMPLOYERS, values).then(async res => {
+        put('/api/seeker/profile', values).then(async res => {
             setLoader(false)
             navigation.replace('SkillsQuestions')
         })
@@ -129,10 +135,6 @@ export default function CreateProfileSeeker({ navigation }) {
     //         email: response.email,
     //     });
     // }
-
-    if (response && response.full_name) {
-        navigation.replace('SkillsQuestions');
-    }
 
     if (submitLoading || loading) {
         return (

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { userTokenId } from "../services/auth.service";
 import { BASE_URL } from '../constants';
-import { NavigationContext } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -14,17 +14,15 @@ axios.interceptors.request.use(async function (config) {
   return Promise.reject(error);
 });
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(response => {
   return response;
-}, function (error) {
-  if (401 === error.response.status) {
-    const navigation = React.useContext(NavigationContext);
-    navigation.replace('LoginScreen');
-  } else {
-      return Promise.reject(error);
-  }
+}, error => {
+ if (error?.response?.status === 401) {
+  const linkTo = useLinkTo();
+  linkTo('LoginScreen');
+ }
+ return error;
 });
-
 
 async function get(url, config) {
   try {
@@ -53,7 +51,7 @@ async function put(url, data, config) {
   }
 }
 
-async function patch(url, params: any) {
+async function patch(url, params) {
   try {
     const response = await axios.patch(url, data, config);
     return response;
