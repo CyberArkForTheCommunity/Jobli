@@ -5,11 +5,14 @@ import { JOBLI_FONT, PRIMARY_BTN, SECONDARY_BTN } from '../assets/theme';
 import { isJobSeeker, updateUserType } from '../services/user.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const USER_TYPE_STORAGE_KEY = 'user_type'
 export default function ChooseUserTypeScreen({ navigation }) {
+    const [loading, setLoader] = React.useState(true);
+
     function navigateUserByType(userType) {
         updateUserType(userType).then(() => {
             if (userType === 'job_seeker') {
-                navigation.replace('יצירת פרופיל מחפש עבודה');
+                navigation.navigate('יצירת פרופיל מחפש עבודה');
             } else if (userType === 'employer') {
                 navigation.navigate('יצירת פרופיל מעסיק');
             }
@@ -17,11 +20,24 @@ export default function ChooseUserTypeScreen({ navigation }) {
     }
 
     React.useEffect(() => {
-        // AsyncStorage.clear()
         if (isJobSeeker()) {
-            navigation.replace('יצירת פרופיל מחפש עבודה');
+            navigation.replace('JobsList');
+        } else {
+            setLoader(false);
         }
     }, []);
+
+    if (loading) {
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <Text style={{ fontSize: 16, padding: 5 }}>טוען...</Text>
+            </View>
+        );
+    }
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
@@ -33,7 +49,7 @@ export default function ChooseUserTypeScreen({ navigation }) {
                     title="לחפש עבודה"
                     onPress={() => {
                         const userType = 'job_seeker';
-                        AsyncStorage.setItem('user_type', userType);
+                        AsyncStorage.setItem(USER_TYPE_STORAGE_KEY, userType);
                         navigateUserByType(userType)
                     }}
                 />

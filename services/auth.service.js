@@ -1,18 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Auth } from 'aws-amplify';
-
-const USER_ID = 'userId';
-const ID_TOKEN = 'jwtToken';
 
 export let userId;
 export let userTokenId;
 
 export async function isAuthenticated() {
-  const user_id = await AsyncStorage.getItem(USER_ID);
-  const jwtToken = await AsyncStorage.getItem(ID_TOKEN);
-  userId = user_id;
-  userTokenId = jwtToken;
-  return jwtToken && user_id;
+  return userTokenId && userId;
 }
 
 export async function storeUserDetails() {
@@ -21,16 +13,18 @@ export async function storeUserDetails() {
 }
 
 export async function googleSignIn() {
-  return Auth.federatedSignIn();
+  return Auth.federatedSignIn({ provider: 'Google' });
+}
+
+// facebook app from server side not connected right now.
+export async function facebookSignIn() {
+  return Auth.federatedSignIn({ provider: 'Facebook' });
 }
 
 async function storeUserId() {
   Auth.currentAuthenticatedUser()
   .then(async (userData) => {
-      await AsyncStorage.setItem(
-          USER_ID,
-          userData.attributes.sub
-      );
+    userId = userData.attributes.sub
   })
   .catch(() => console.log('Not signed in'));
 }
@@ -38,10 +32,7 @@ async function storeUserId() {
 function storeUserToken() {
   Auth.currentAuthenticatedUser()
   .then(async (userData) => {
-      await AsyncStorage.setItem(
-          ID_TOKEN,
-          userData.signInUserSession.idToken.jwtToken
-      );
+    userTokenId = userData.signInUserSession.idToken.jwtToken
   })
   .catch(() => console.log('Not signed in'));
 }
