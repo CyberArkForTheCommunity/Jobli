@@ -5,7 +5,7 @@ import Theme from "./../theme";
 
 const styles = StyleSheet.create({
   container: { margin: 5, fontSize: 20, color: "red" },
-  header: { fontSize: 25 },
+  header: { fontSize: 25, textAlign: "left" },
   text: { fontSize: 16, padding: 5 },
   subTitle: { fontSize: 16, backgroundColor: Theme.c2, padding: 5 },
 });
@@ -16,9 +16,9 @@ export default function SummaryScreen({ navigation }) {
 
   const getProfile = async () => {
     try {
-      const res = await get('/api/seeker/summary');
+      const res = await get("/api/seeker/summary");
       setUserSummary(res.data);
-      console.log('summary: ', res.data);
+      console.log("summary: ", res.data);
     } catch (e) {
       console.log(e);
     }
@@ -52,7 +52,7 @@ export default function SummaryScreen({ navigation }) {
     if (userSummary) {
       return (
         <>
-          <Text style={styles.text}>{userSummary.profile.full_name}</Text>
+          {/* <Text style={styles.text}>{userSummary.profile.full_name}</Text> */}
           {userSummary.profile.birth_date && <Text style={styles.text}>{new Date(userSummary.profile.birth_date).toLocaleString()}</Text>}
           <Text style={styles.text}>{userSummary.profile.address}</Text>
           <Text style={styles.text}>{userSummary.profile.email}</Text>
@@ -67,8 +67,8 @@ export default function SummaryScreen({ navigation }) {
               </Text>
             )}
           />
-          <Text style={styles.header}>נסיון</Text>
-          {showUserExperienceList()}
+          {/* <Text style={styles.header}>נסיון</Text>
+          {showUserExperienceList()} */}
         </>
       );
     }
@@ -79,7 +79,7 @@ export default function SummaryScreen({ navigation }) {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.header}>פרופיל אישי</Text>
+          <Text style={styles.header}>{userSummary.profile && userSummary.profile.full_name + " : "} פרופיל אישי</Text>
           <View>{loading ? <Text style={styles.text}>טוען...</Text> : showUserSummary()}</View>
         </View>
       </ScrollView>

@@ -9,20 +9,20 @@ import { useFonts, Rubik_400Regular } from '@expo-google-fonts/rubik';
 import JobliLoader from './components/JobliLoader';
 import { StyleSheet, I18nManager } from 'react-native';
 
-import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-web-browser';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-import JobsListScreen from './screens/JobsListScreen';
+import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import JobsListScreen from "./screens/JobsListScreen";
 
-import AddLanguageScreen from './screens/AddLanguageScreen';
-import SkillsSummary from './components/skills-wizard/skills-summary';
-import AboutMeProfileScreen from './screens/AboutMeProfileScreen';
-import CreateProfileSeeker, { CreateProfileSeekerScreenName, CreateProfileSeekerScreenOptions } from './screens/create-profile/CreateProfileSeeker';
-import CreateProfileEmployer, { CreateProfileEmployerScreenName, CreateProfileEmployerScreenOptions } from './screens/create-profile/CreateProfileEmployer';
-import PostJobWizard, { PostJobWizardScreenName, PostJobWizardScreenOptions } from './screens/post-job-wizard/post-job-wizard';
-import SummaryScreen from './screens/SummaryScreen';
-import LoginScreen from './screens/LoginScreen';
+import AddLanguageScreen from "./screens/AddLanguageScreen";
+import SkillsSummary from "./components/skills-wizard/skills-summary";
+import AboutMeProfileScreen from "./screens/AboutMeProfileScreen";
+import CreateProfileSeeker, { CreateProfileSeekerScreenName, CreateProfileSeekerScreenOptions } from "./screens/create-profile/CreateProfileSeeker";
+import CreateProfileEmployer, { CreateProfileEmployerScreenName, CreateProfileEmployerScreenOptions } from "./screens/create-profile/CreateProfileEmployer";
+import PostJobWizard, { PostJobWizardScreenName, PostJobWizardScreenOptions } from "./screens/post-job-wizard/post-job-wizard";
+import SummaryScreen from "./screens/SummaryScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -34,55 +34,49 @@ const navTheme = {
     background: Theme.c1,
     colors: Theme.textColor,
     text: Theme.textColor,
-    border: Theme.c1
+    border: Theme.c1,
   },
 };
 
-
 async function urlOpener(url, redirectUrl) {
-  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
-    url,
-    redirectUrl
-  );
+  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
 
-  if (type === 'success' && Platform.OS === 'ios') {
+  if (type === "success" && Platform.OS === "ios") {
     WebBrowser.dismissBrowser();
     return Linking.openURL(newUrl);
   }
 }
 
-const expoScheme = "jobli://"
+const expoScheme = "jobli://";
 // Technically you need to pass the correct redirectUrl to the web browser.
 let redirectUrl = Linking.makeUrl();
-if (redirectUrl.startsWith('exp://1')) {
+if (redirectUrl.startsWith("exp://1")) {
   // handle simulator(localhost) and device(Lan)
-  redirectUrl = redirectUrl + '/--/';
-} else
-  if (redirectUrl === expoScheme) {
-    // dont do anything
-  } else {
-    // handle the expo client
-    redirectUrl = redirectUrl + '/'
-  }
+  redirectUrl = redirectUrl + "/--/";
+} else if (redirectUrl === expoScheme) {
+  // dont do anything
+} else {
+  // handle the expo client
+  redirectUrl = redirectUrl + "/";
+}
 
 Amplify.configure({
   ...awsconfig,
   oauth: {
     ...awsconfig.oauth,
     urlOpener,
-    scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+    scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
     redirectSignIn: redirectUrl,
-    responseType: 'code'
+    responseType: "code",
   },
 });
-
 
 function App() {
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
 
   let [fontsLoaded] = useFonts({
-    Rubik_400Regular
+    Rubik_400Regular,
   });
   if (!fontsLoaded) {
     return <JobliLoader />
@@ -103,10 +97,7 @@ function App() {
         <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'סיכום' }} />
       </Stack.Navigator>
     </NavigationContainer>);
-
 }
 
 export default App;
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create({});
