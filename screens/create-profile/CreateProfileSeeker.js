@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, TouchableOpacity, Dimensions, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import Theme from '../../theme';
-import { SEEKER_PROFILE_URL, EMPLOYERS } from '../../constants';
 import InputText from '../../components/input-text';
 import UploadProfileImage from './UploadProfileImage';
 import { Icon, Button, Overlay } from 'react-native-elements';

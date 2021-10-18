@@ -16,8 +16,9 @@ export default function SummaryScreen({ navigation }) {
 
   const getProfile = async () => {
     try {
-      const res = await get('/api/seekers/summary');
+      const res = await get('/api/seeker/summary');
       setUserSummary(res.data);
+      console.log('summary: ', res.data);
     } catch (e) {
       console.log(e);
     }

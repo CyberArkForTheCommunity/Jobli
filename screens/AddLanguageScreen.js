@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {SEEKER_LANGUAGES_URL} from '../constants';
 import {put} from '../services/api.service'
 
 const items = [{
@@ -54,9 +53,8 @@ const onSelectedItemsChange = selectedItems => {
 const onApply = async (selectedItems) => {
   try{
     console.log(selectedItems);
-    const res = await put(SEEKER_LANGUAGES_URL, selectedItems);
-    navigation.replace('Summary')
-    console.log(res);
+    await put('/api/seeker/languages', selectedItems);
+    navigation.replace('SkillsQuestions');
   } catch (e) {
     console.log(e)
   }
@@ -74,7 +72,7 @@ return (
       selectText="הקלד שפה"
       searchInputPlaceholderText="הקלד שפה"
       onChangeInput={ (text)=> console.log(text)}
-      altFontFamily="ProximaNova-Light"
+      altFontFamily="Rubik_400Regular"
       tagRemoveIconColor="#28527A"
       tagBorderColor="#FFF"
       tagTextColor="#2E2E2E"
