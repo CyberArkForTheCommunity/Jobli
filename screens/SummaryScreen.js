@@ -15,8 +15,7 @@ export default function SummaryScreen({ navigation }) {
 
     const getProfile = async() => {
         try{
-            const USER_ID = '11111';
-            const res = await get(SEEKER_PROFILE_URL(USER_ID));
+            const res = await get('/api/seeker/profile');
             console.log(res);
             setUserSummary(res.data);
         } catch (e) {

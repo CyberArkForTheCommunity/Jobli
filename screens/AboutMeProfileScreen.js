@@ -81,7 +81,7 @@ export default function AboutMeProfileScreen({ navigation }) {
 
   React.useEffect(() => {
     if (response && (response.about_me || response.job_ambitions || response.hobbies)) {
-        navigation.replace('AddLanguage');
+        navigation.replace('SkillsQuestions');
     }
 }, [response])
 

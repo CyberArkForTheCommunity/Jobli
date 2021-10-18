@@ -65,11 +65,8 @@ export default SkillsSummary = ({navigation, route}) => {
 
   const onApply = async () => {
     try{
-      console.log(answers);
-      const USER_ID = '11111'
-      const res = await post(SEEKER_PROFILE_ANSWERS_URL(USER_ID), answers);
-      navigation.replace('AddLanguage')
-      console.log(res);
+      await post('/api/seekers/answers', answers);
+      navigation.replace('Summary');
     } catch (e) {
       console.log(e)
     }
