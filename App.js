@@ -14,6 +14,7 @@ import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
+import JobsListScreen from './screens/JobsListScreen';
 
 import AddLanguageScreen from './screens/AddLanguageScreen';
 import SkillsSummary from './components/skills-wizard/skills-summary';
@@ -90,6 +91,7 @@ function App() {
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="JobsList" component={JobsListScreen} />
         <Stack.Screen name="About" component={AboutScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name={CreateProfileSeekerScreenName} options={CreateProfileSeekerScreenOptions} component={CreateProfileSeeker} />

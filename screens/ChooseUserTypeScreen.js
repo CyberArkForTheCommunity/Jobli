@@ -31,7 +31,6 @@ export default function ChooseUserTypeScreen({ navigation }) {
                 <Button
                     buttonStyle={[styles.choosetypeBtn, styles.seekingForWorkBtnStyle, PRIMARY_BTN.BTN_STYLE]}
                     title="לחפש עבודה"
-                    titleStyle={PRIMARY_BTN.TITLE_STYLE}
                     onPress={() => {
                         const userType = 'job_seeker';
                         AsyncStorage.setItem('user_type', userType);
