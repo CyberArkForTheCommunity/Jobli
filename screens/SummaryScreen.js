@@ -39,15 +39,16 @@ export default function SummaryScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
 
   const getProfile = async () => {
-    try {
-      const res = await get(SEEKER_SUMMARY);
+    console.log("getUserType");
+
+    const res = await get("/api/seeker/summary").catch(console.log);
+    if (res) {
       setUserSummary(res.data);
       //setUserSummary(mock);
-    } catch (e) {
-      console.log(e);
     }
     setLoading(false);
   };
+
   useEffect(() => {
     getProfile();
   }, []);
