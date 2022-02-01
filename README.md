@@ -18,4 +18,6 @@ notes:
 - install android or ios emulator to run the app on your compunetr, it's not a required step becaues you can run by scan the qr-code
 ## Run the app
 
-run commnad: `expo start --android`
+- run commnad: `npm install`
+
+- run commnad: `expo start --android`

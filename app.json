@@ -12,6 +12,10 @@
     ],
     "description": "",
     "githubUrl": "https://github.com/CyberArkForTheCommunity/jobli-frontend",
+    "ios": {
+      "bundleIdentifier": "com.akim.jobli",
+      "buildNumber": "1.0.0"
+    },
     "android": {
       "package": "com.akim.jobli",
       "versionCode": 1
