@@ -4,8 +4,8 @@
 const awsmobile = {
  "aws_project_region": "eu-west-1",
  "aws_cognito_region": "eu-west-1",
- "aws_user_pools_id": "eu-west-1_ocn08dURy",
- "aws_user_pools_web_client_id": "1elqp3gn5frehehhgln8s81700",
+ "aws_user_pools_id": "eu-west-1_beL7oQctG",
+ "aws_user_pools_web_client_id": "4f0dfp36q75fvtedep4rm859dj",
  "oauth": {
     "domain": "joblimain.auth.eu-west-1.amazoncognito.com",
  }
